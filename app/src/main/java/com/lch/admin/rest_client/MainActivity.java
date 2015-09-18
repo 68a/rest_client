@@ -47,8 +47,9 @@ public class MainActivity extends AppCompatActivity {
     }
     protected void getRest() {
        // String url = "http://httpbin.org/html";
-        String url = apiUrlBegin + "XAG_USD&" + apiUrlEnd;
 
+        String url = apiUrlBegin + "XAG_USD&" + apiUrlEnd;
+        
 // Request a string response
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         // Result handling
-                        System.out.println("rest_client: " + response.substring(0,100));
+                        System.out.println("rest_client resp: " + response.substring(0,100));
 
                     }
                 }, new ErrorListener() {
@@ -68,7 +69,16 @@ public class MainActivity extends AppCompatActivity {
                 error.printStackTrace();
 
             }
-        });
+        }){
+            @Override
+            public HashMap<String, String> getHeaders() {
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("Content-type", "application/x-www-form-urlencoded");
+                params.put("Accept", "text/plain");
+                params.put("Authorization", "Bearer " + apiKey);
+                return params;
+            }
+        };
 
 // Add the request to the queue
         Volley.newRequestQueue(this).add(stringRequest);
