@@ -1,5 +1,6 @@
 package com.lch.admin.rest_client;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -26,9 +27,27 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<HashMap<String, String>> feedList;
     SimpleAdapter simpleAdapter;
     ListView lv;
+    String apiKey;
+    String apiUrlBegin;
+    String apiUrlEnd;
 
+    private String getStringValue(String key) {
+        // Retrieve the resource id
+        String packageName = getBaseContext().getPackageName();
+        Resources resources = getBaseContext().getResources();
+        int stringId = resources.getIdentifier(key, "string", packageName);
+        if (stringId == 0) { return null; }
+        // Return the string value based on the res id
+        return resources.getString(stringId);
+    }
+    public void getConfig() {
+        apiKey = getStringValue("apiKey");
+        apiUrlBegin = getStringValue("apiUrlBegin");
+        apiUrlEnd = getStringValue("apiUrlEnd");
+    }
     protected void getRest() {
-        String url = "http://httpbin.org/html";
+       // String url = "http://httpbin.org/html";
+        String url = apiUrlBegin + "XAG_USD&" + apiUrlEnd;
 
 // Request a string response
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -69,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
                                 lv.invalidateViews();
                                 lv.refreshDrawableState();
                                 btn.setText("#" + 100);
+                                String apiKey = getStringValue("api_key");
+                                System.out.println("rest_client: " + apiKey);
                             }
                         });
                         Thread.sleep(300);
@@ -82,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getConfig();
         getRest();
         setContentView(R.layout.activity_main);
         lv = (ListView) findViewById(R.id.listView);
