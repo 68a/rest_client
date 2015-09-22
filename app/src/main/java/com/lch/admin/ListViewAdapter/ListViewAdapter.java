@@ -1,6 +1,3 @@
-/**
- * Created by Admin on 2015/9/18.
- */
 package com.lch.admin.ListViewAdapter;
 
 import android.content.Context;
@@ -13,12 +10,10 @@ import android.widget.TextView;
 import com.lch.admin.rest_client.R;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ListViewAdapter extends ArrayAdapter<ContractRatioPrice>  {
 
-    ArrayList<ContractRatioPrice> item_list;
-
-    Context context;
     public ListViewAdapter(Context context, ArrayList<ContractRatioPrice> contractRatioPrices){
         super(context, R.layout.rowlayout, contractRatioPrices);
     }
@@ -33,21 +28,20 @@ public class ListViewAdapter extends ArrayAdapter<ContractRatioPrice>  {
     public View getView(int position, View convertView, ViewGroup parent) {
         ContractRatioPrice contractRatioPrice = getItem(position);
         View rowView = convertView;
-        ViewHolder holder = null;
+        ViewHolder holder;
         // Inflate the rowlayout.xml file if convertView is null
         if(rowView==null){
             LayoutInflater inflater = LayoutInflater.from(getContext());
             rowView= inflater.inflate(R.layout.rowlayout, parent, false);
             holder = new ViewHolder();
             holder.contract= (TextView) rowView.findViewById(R.id.contract);
-            holder.radio = (TextView) rowView.findViewById(R.id.radio);
+            holder.radio = (TextView) rowView.findViewById(R.id.ratio);
             holder.price = (TextView) rowView.findViewById(R.id.price);
             rowView.setTag(holder);
 
         }
         else {
-            // Set text to each TextView of ListView item
-         //   String[] items = item_list[position].split("__");
+
             holder = (ViewHolder) rowView.getTag();
         }
         if (contractRatioPrice != null) {
@@ -61,5 +55,15 @@ public class ListViewAdapter extends ArrayAdapter<ContractRatioPrice>  {
         }
         return rowView;
     }
+    @Override
+    public void notifyDataSetChanged() {
+        this.setNotifyOnChange(false);
+        this.sort(new Comparator<ContractRatioPrice>() {
+                            @Override public int compare(ContractRatioPrice c1, ContractRatioPrice c2) {
+                                return c1.ratio.compareTo(c2.ratio);
+                            }
+                        });
 
+        this.setNotifyOnChange(true);
+    }
 }
