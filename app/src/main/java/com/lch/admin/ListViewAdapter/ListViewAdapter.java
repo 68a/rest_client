@@ -44,25 +44,29 @@ public class ListViewAdapter extends ArrayAdapter<ContractRatioPrice>  {
 
             holder = (ViewHolder) rowView.getTag();
         }
-        if (contractRatioPrice != null) {
-            try {
-                holder.contract.setText(contractRatioPrice.contract);
-                holder.radio.setText(String.format("%.2f", contractRatioPrice.ratio));
-                if (contractRatioPrice.contract.equals("XAG_USD")) {
-                    holder.price.setText(String.format("%.3f",contractRatioPrice.price));
+        if (contractRatioPrice != null) try {
+            holder.contract.setText(contractRatioPrice.contract);
+            holder.radio.setText(String.format("%.2f", contractRatioPrice.ratio));
+            switch (contractRatioPrice.contract) {
+                case "XAG_USD": {
+                    holder.price.setText(String.format("%.3f", contractRatioPrice.price));
+                    break;
                 }
-                else if (contractRatioPrice.contract.equals("USD_JPY")) {
-                    holder.price.setText(String.format("%.2f",contractRatioPrice.price));
+                case "USD_JPY": {
+                    holder.price.setText(String.format("%.2f", contractRatioPrice.price));
+                    break;
                 }
-                else if (contractRatioPrice.contract.equals("XAU_USD")) {
-                    holder.price.setText(String.format("%.1f",contractRatioPrice.price));
+                case "XAU_USD": {
+                    holder.price.setText(String.format("%.1f", contractRatioPrice.price));
+                    break;
                 }
-                else {
+                default: {
                     holder.price.setText(String.format("%.4f", contractRatioPrice.price));
+                    break;
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return rowView;
     }
