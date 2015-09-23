@@ -7,20 +7,20 @@ import java.util.ArrayList;
 
 public class ContractRatioPrice {
     public String contract;
-    public String ratio;
-    public String price;
+    public float ratio;
+    public float price;
 
     public ContractRatioPrice(String contract, String ratio, String price) {
         this.contract = contract;
-        this.ratio = ratio;
-        this.price = price;
+        this.ratio = Math.abs(50 - Float.parseFloat(ratio));
+        this.price = Float.parseFloat(price);
     }
 
     public ContractRatioPrice(JSONArray jsonArr, String contractName) {
         try {
             this.contract = contractName;
-            this.ratio = jsonArr.get(1).toString();
-            this.price = jsonArr.get(2).toString();
+            this.ratio = Math.abs(50 - Float.parseFloat(jsonArr.get(1).toString()));
+            this.price = Float.parseFloat(jsonArr.get(2).toString());
         }
         catch (JSONException e) {
             e.printStackTrace();

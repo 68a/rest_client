@@ -10,7 +10,9 @@
 
             >
             <TextView
-                android:id="@+id/txtname"
+                android:id="@+id/contract"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:padding="10sp"
                 android:gravity="left"
@@ -18,10 +20,22 @@
                 >
             </TextView>
             <TextView
-                android:id="@+id/txtprice"
+                android:id="@+id/ratio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:padding="10sp"
-                android:gravity="left"
+                android:gravity="right"
+                >
+            </TextView>
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:padding="10sp"
+                android:gravity="right"
                 >
             </TextView>
         </TableRow>

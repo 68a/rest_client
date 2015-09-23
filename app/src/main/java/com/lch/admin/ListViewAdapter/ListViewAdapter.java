@@ -47,8 +47,19 @@ public class ListViewAdapter extends ArrayAdapter<ContractRatioPrice>  {
         if (contractRatioPrice != null) {
             try {
                 holder.contract.setText(contractRatioPrice.contract);
-                holder.radio.setText(contractRatioPrice.ratio);
-                holder.price.setText(contractRatioPrice.price);
+                holder.radio.setText(String.format("%.2f", contractRatioPrice.ratio));
+                if (contractRatioPrice.contract.equals("XAG_USD")) {
+                    holder.price.setText(String.format("%.3f",contractRatioPrice.price));
+                }
+                else if (contractRatioPrice.contract.equals("USD_JPY")) {
+                    holder.price.setText(String.format("%.2f",contractRatioPrice.price));
+                }
+                else if (contractRatioPrice.contract.equals("XAU_USD")) {
+                    holder.price.setText(String.format("%.1f",contractRatioPrice.price));
+                }
+                else {
+                    holder.price.setText(String.format("%.4f", contractRatioPrice.price));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -60,7 +71,7 @@ public class ListViewAdapter extends ArrayAdapter<ContractRatioPrice>  {
         this.setNotifyOnChange(false);
         this.sort(new Comparator<ContractRatioPrice>() {
                             @Override public int compare(ContractRatioPrice c1, ContractRatioPrice c2) {
-                                return c1.ratio.compareTo(c2.ratio);
+                                return Float.compare(c2.ratio, c1.ratio);
                             }
                         });
 

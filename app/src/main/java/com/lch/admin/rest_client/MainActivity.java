@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                             System.out.println("rest_client json" + json.toString());
                             System.out.println("rest_client data:" + obj.toString());
 
-                            ContractRatioPrice contractRatioPrice = new ContractRatioPrice("", "","");
+                            ContractRatioPrice contractRatioPrice = new ContractRatioPrice("", "0","0");
                             ArrayList<ContractRatioPrice> newData = ContractRatioPrice.fromJson(obj, contractName);
 
                             adapter.addAll(newData);
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         // Get the string array defined in strings.xml file
 
         // Create an adapter to bind data to the ListView
-        ContractRatioPrice contractRatioPrice = new ContractRatioPrice("","","");
+        ContractRatioPrice contractRatioPrice = new ContractRatioPrice("","0","0");
         ArrayList<ContractRatioPrice> contractRatioPrices = new ArrayList<>();
         contractRatioPrices.add(contractRatioPrice);
         adapter=new ListViewAdapter(this, contractRatioPrices );
