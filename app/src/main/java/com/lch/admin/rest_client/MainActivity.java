@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,7 +23,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import static com.android.volley.Response.ErrorListener;
@@ -36,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     String apiKey;
     String apiUrlBegin;
     String apiUrlEnd;
+    String tickTime;
+    TextView timeText;
     ListViewAdapter adapter;
     String [] contracts = {"XAU_USD", "XAG_USD", "EUR_USD", "NZD_USD", "AUD_USD", "GBP_USD","USD_JPY", "USD_CHF"};
 
@@ -83,6 +89,14 @@ public class MainActivity extends AppCompatActivity {
                             ContractRatioPrice contractRatioPrice = new ContractRatioPrice("", "0","0");
                             ArrayList<ContractRatioPrice> newData = ContractRatioPrice.fromJson(obj, contractName);
 
+                            DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                            Date tick = new Date(Long.parseLong( obj.get(0).toString())*1000L);
+                            tickTime = sdf.format(tick);
+
+                            timeText = (TextView) findViewById(R.id.tickTime);
+                            timeText.setText(tickTime);
+
+
                             adapter.addAll(newData);
                             adapter.notifyDataSetChanged();
                             lv.invalidateViews();
@@ -91,9 +105,6 @@ public class MainActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-                        btn.setText("#" + 100);
-
                     }
                 }, new ErrorListener() {
             @Override
@@ -159,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
         adapter=new ListViewAdapter(this, contractRatioPrices );
         // Bind data to the ListView
         lv.setAdapter(adapter);
+        runThread();
 
         btn = (Button)findViewById(R.id.btn);
         btn.setOnClickListener(new View.OnClickListener() {
